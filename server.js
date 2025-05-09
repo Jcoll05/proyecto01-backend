@@ -1,6 +1,9 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import express from 'express';
 import conectarDB from './db.js';
 import usuariosRoutes from './routes/usuarios.js';
+import librosRoutes from './routes/libros.js';
 
 const app = express();
 app.use(express.json());
@@ -14,6 +17,7 @@ app.get('/', (req, res) => {
   });
 
 app.use('/', usuariosRoutes);
+app.use('/', librosRoutes);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
