@@ -175,7 +175,15 @@ router.delete('/libros/:id', verificarToken, async (req, res) => {
 router.post('/libros/:idLibro/reservar', verificarToken, agregarReserva);
 
 // Ruta para obtener las reservas de un libro específico (pasadas y nuevas)
-router.get('/libros/:idLibro/reservas', obtenerReservas);
+router.get('/libros/:idLibro/reservas', verificarToken, (req, res, next) => {
+      // Middleware inline para verificar el permiso
+      if (!req.usuario.permisos.includes('ver_historial')) {
+        return res.status(403).json({ mensaje: 'No tienes permiso para ver el historial de reservas' });
+      }
+      next(); // continuar si tiene permiso
+    },
+    obtenerReservas
+  );
 
 // Ruta para cancelar una reserva
 router.delete('/libros/:idLibro/cancelar', verificarToken, cancelarReserva);
