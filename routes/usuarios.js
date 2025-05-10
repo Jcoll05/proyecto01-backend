@@ -130,7 +130,7 @@ router.put('/usuarios/:id', verificarToken, async (req, res) => {
             usuario.contraseña = contraseñaHasheada;
         }
 
-        // Solo un admin puede cambiar los permisos
+        // Solo un admin puede cambiar los permisos, puede hacerlo por rol o agregar un permiso individualmente.
         if (permisos || rol) {
             if (!puedeModificarUsuarios) {
                 return res.status(403).json({ mensaje: "No puedes cambiar permisos o rol de este usuario" });
@@ -159,6 +159,8 @@ router.put('/usuarios/:id', verificarToken, async (req, res) => {
 // ejemplo de uso si es admin:
 //curl -X PUT http://localhost:3000/usuarios/{id} -H "Content-Type: application/json" -H "Authorization: Bearer token"
 //-d "{\"nombre\":\"Editor\",\"correo\":\"Editor@example.com\",\"contraseña\":\"12345\",\"rol\":\"editor\"}"
+
+//curl -X PUT http://localhost:3000/usuarios/{id} -H "Content-Type: application/json" -H "Authorization: Bearer token" -d "{\"nombre\":\"Julian\",\"correo\":\"julian@example.com\",\"contraseña\":\"1234\",\"permisos\":[\"modificación_propia\",\"crear_libros\"]}"
 
 // ejemplo de uso si no es admin:
 // curl -X PUT http://localhost:3000/usuarios/{id} -H "Content-Type: application/json" -H "Authorization: Bearer token"
